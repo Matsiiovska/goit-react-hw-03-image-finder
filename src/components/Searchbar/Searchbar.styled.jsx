@@ -32,8 +32,6 @@ export const SearchButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url('https://image.flaticon.com/icons/svg/149/149852.svg');
-
   width: 140px;
   height: 40px;
   font-size: 16px;

@@ -1,5 +1,7 @@
 import React from 'react';
 import { Searchbarr, FormSearch, SearchButton, ButtonLabel, Input } from './Searchbar.styled';
+import { BsSearch } from 'react-icons/bs';
+
 import PropTypes from 'prop-types';
 
 
@@ -22,6 +24,7 @@ class Searchbar extends React.Component {
       <Searchbarr>
         <FormSearch onSubmit={this.handleSubmit}>
           <SearchButton type="submit">
+            <BsSearch />
                       <ButtonLabel>Search</ButtonLabel>
           </SearchButton>
           <Input
