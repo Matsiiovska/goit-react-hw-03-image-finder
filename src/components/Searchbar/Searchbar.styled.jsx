@@ -46,11 +46,13 @@ export const SearchButton = styled.button`
     opacity: 1;
   }
 `;
-export const ButtonLabel = styled.span``;
+export const ButtonLabel = styled.span`
+`;
 
 
 export const Input = styled.input`
   display: inline-block;
+  margin-left: 20px;
   width: 100%;
   font: inherit;
   font-size: 20px;
