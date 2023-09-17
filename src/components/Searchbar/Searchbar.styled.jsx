@@ -29,21 +29,23 @@ export const FormSearch = styled.form`
   overflow: hidden;
   `;
 export const SearchButton = styled.button`
-  display: inline-block;
-  width: 48px;
-  height: 48px;
-  border: 0;
-  /*background-color: black;*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-image: url('https://image.flaticon.com/icons/svg/149/149852.svg');
-  background-size: 40%;
-  background-repeat: no-repeat;
-  background-position: center;
-  opacity: 0.6;
-  transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  width: 140px;
+  height: 40px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+
   cursor: pointer;
-  outline: none;
-    &:hover {
-    opacity: 1;
+  &:hover,
+  &:focus {
+    background-color: blue;
   }
 `;
 export const ButtonLabel = styled.span`
