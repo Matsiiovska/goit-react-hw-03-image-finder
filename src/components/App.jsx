@@ -59,9 +59,9 @@ export class App extends Component {
         ) : (
           <p
             style={{
-              padding: 100,
+              padding: 200,
               textAlign: 'center',
-              fontSize: 30,
+              fontSize: 40,
             }}
           >
             Image gallery is empty... 📷
