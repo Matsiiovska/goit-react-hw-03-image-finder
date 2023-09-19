@@ -37,8 +37,8 @@ export const SearchButton = styled.button`
   font-size: 16px;
   font-weight: 600;
   border: none;
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
+  border-top-left-radius: 1px;
+  border-bottom-left-radius: 1px;
 
   cursor: pointer;
   &:hover,

@@ -25,7 +25,7 @@ class Searchbar extends React.Component {
         <FormSearch onSubmit={this.handleSubmit}>
           <SearchButton type="submit">
             <BsSearch />
-                      <ButtonLabel>Search</ButtonLabel>
+            <ButtonLabel>Search</ButtonLabel>
           </SearchButton>
           <Input
             type="text"

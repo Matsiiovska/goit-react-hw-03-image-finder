@@ -4,37 +4,42 @@ import Loader from './Loader/Loader';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Searchbar from './Searchbar/Searchbar';
 import { Divapp } from './App.styled';
+import { fetchImages } from 'FetchImages/FetchImages';
 
 export class App extends Component {
   state = {
     query: '',
     page: 1,
     images: [],
-    loading: false
+    loading: false,
+    hasMore: true
   };
 
   handleSearch = (query) => {
-    this.setState({ query, images: [], loading: true }, () => {
+    if (query.trim() === '') {
+      return;
+    }
+
+    this.setState({ query, page: 1, images: [], loading: true, hasMore: true }, () => {
       this.fetchImages();
     });
   };
 
   fetchImages = () => {
     const { query, page } = this.state;
-    const apiKey = '38631612-cb45d4da8d92e0954f2c2005e';
-    const url = `https://pixabay.com/api/?q=${query}&page=${page}&key=${apiKey}&image_type=photo&orientation=horizontal&per_page=12`;
 
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        this.setState((prevState) => ({
-          images: [...prevState.images, ...data.hits],
-          loading: false
-        }));
-      })
-      .catch((error) => {
-        console.log("Error", error);
-        this.setState({ loading: false });
+    fetchImages(query, page)
+      .then((result) => {
+        if (result.error) {
+          this.setState({ loading: false });
+        } else if (result.images) {
+          this.setState((prevState) => ({
+            images: [...prevState.images, ...result.images],
+            loading: false
+          }));
+        } else if (!result.hasMore) {
+          this.setState({ hasMore: false });
+        }
       });
   };
 
@@ -45,7 +50,7 @@ export class App extends Component {
   };
 
   render() {
-    const { images, loading } = this.state;
+    const { images, loading, hasMore } = this.state;
 
     return (
       <Divapp>
@@ -54,21 +59,32 @@ export class App extends Component {
           <Loader />
         ) : (
           <>
-          {images.length > 0 ? (
-          <ImageGallery images={images} />
-        ) : (
-          <p
-            style={{
-              padding: 200,
-              textAlign: 'center',
-              fontSize: 40,
-            }}
-          >
-            Image gallery is empty... 📷
-          </p>
-        )}
-            {images.length > 0 && (
+            {images.length > 0 ? (
+              <ImageGallery images={images} />
+            ) : (
+              <p
+                style={{
+                  padding: 200,
+                  textAlign: 'center',
+                  fontSize: 40,
+                }}
+              >
+                Image gallery is empty... 📷
+              </p>
+            )}
+            {images.length > 0 && hasMore && (
               <Button onClick={this.handleLoadMore}>Load More</Button>
+            )}
+            {!hasMore && (
+              <p
+                style={{
+                  textAlign: 'center',
+                  fontSize: 18,
+                  color: 'gray',
+                }}
+              >
+                End of the list
+              </p>
             )}
           </>
         )}
