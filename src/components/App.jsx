@@ -29,9 +29,7 @@ export class App extends Component {
         loading: true,
         noResults: false,
       },
-      () => {
-        this.fetchImages();
-      }
+
     );
   };
 
@@ -57,10 +55,7 @@ export class App extends Component {
         page: prevState.page + 1,
               loading: true, 
 
-      }),
-      () => {
-        this.fetchImages();
-      }
+      })
     );
   };
 
