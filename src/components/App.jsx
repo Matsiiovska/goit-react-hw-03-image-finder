@@ -33,7 +33,7 @@ export class App extends Component {
     );
   };
 
-  fetchImages = () => {
+  fethImages = () => {
     const { query, page } = this.state;
 
     fetchImages(query, page).then((result) => {
@@ -64,7 +64,7 @@ export class App extends Component {
       this.state.page !== prevState.page ||
       this.state.query !== prevState.query
     ) {
-      this.fetchImages();
+      this.fethImages();
     }
   }
 
@@ -100,7 +100,7 @@ export class App extends Component {
                     <ImageGallery images={images} />
                     {!loadMore && (
                       <Button onClick={this.handleLoadMore}>
-                        Завантажити ще
+                        Load more
                       </Button>
                     )}
                   </>
