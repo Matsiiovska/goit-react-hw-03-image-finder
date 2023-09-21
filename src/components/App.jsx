@@ -39,13 +39,12 @@ export class App extends Component {
     const { query, page } = this.state;
 
     fetchImages(query, page).then((result) => {
-      if (result.error) {
-        this.setState({ loading: false });
-      } else if (result.images) {
+      if (result.images) {
         this.setState((prevState) => ({
           images: [...prevState.images, ...result.images],
           loading: false,
-          noResults: result.images.length === 0 && prevState.images.length === 0,
+          noResults:
+            result.images.length === 0 && prevState.images.length === 0,
           loadMore: page + 1 < Math.ceil(result.totalHits / 12),
         }));
       }
@@ -56,6 +55,8 @@ export class App extends Component {
     this.setState(
       (prevState) => ({
         page: prevState.page + 1,
+              loading: true, 
+
       }),
       () => {
         this.fetchImages();
@@ -64,7 +65,10 @@ export class App extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.page !== prevState.page || this.state.query !== prevState.query) {
+    if (
+      this.state.page !== prevState.page ||
+      this.state.query !== prevState.query
+    ) {
       this.fetchImages();
     }
   }
@@ -80,15 +84,47 @@ export class App extends Component {
         ) : (
           <>
             {noResults && !loading ? (
-              <p>Немає результатів</p>
+              <p
+                style={{
+                  color: 'grey',
+                  textAlign: 'center',
+                  fontSize: '30px',
+                  fontWeight: 'bold',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: '100vh',
+                }}
+              >
+                Немає результатів
+              </p>
             ) : (
               <>
                 {images.length > 0 ? (
-                  <ImageGallery images={images} />
+                  <>
+                    <ImageGallery images={images} />
+                    {!loadMore && (
+                      <Button onClick={this.handleLoadMore}>
+                        Завантажити ще
+                      </Button>
+                    )}
+                  </>
                 ) : (
-                  <p>Галерея зображень порожня... 📷</p>
+                  <p
+                    style={{
+                      color: 'grey',
+                      textAlign: 'center',
+                      fontSize: '30px',
+                      fontWeight: 'bold',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      height: '100vh',
+                    }}
+                  >
+                    Галерея зображень порожня... 📷
+                  </p>
                 )}
-                {images.length > 0 && loadMore && <Button onLoadMore={this.handleLoadMore} />}
               </>
             )}
           </>

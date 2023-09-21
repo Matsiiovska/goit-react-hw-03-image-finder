@@ -7,6 +7,9 @@ export const Divapp = styled.div`
 `;
 
 
+
+
+
 /*.App {
   display: grid;
   grid-template-columns: 1fr;

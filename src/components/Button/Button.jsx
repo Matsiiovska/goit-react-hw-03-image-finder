@@ -2,10 +2,10 @@ import React from 'react';
 import { But, ButtonContainer } from './Button.styled';
 import PropTypes from 'prop-types';
 
-const Button = ({ onClick, children, hidden }) => {
+const Button = ({ onClick, children}) => {
   return (
     <ButtonContainer>
-      <But onClick={onClick} hidden={hidden}>
+      <But onClick={onClick}>
         {children}
       </But>
     </ButtonContainer>
