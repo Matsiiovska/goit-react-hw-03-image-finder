@@ -6,7 +6,7 @@ export const fetchImages = (query, page) => {
     .then((response) => response.json())
     .then((data) => {
       if (data.hits.length === 0) {
-        return { hasMore: false, images: [], loading: false };
+        return { hasMore: false, images: [], loading: false};
       } else {
         return { images: data.hits, hasMore: data.hits.length >= 12 };
       }

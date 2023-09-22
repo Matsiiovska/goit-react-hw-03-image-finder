@@ -28,12 +28,13 @@ export class App extends Component {
         images: [],
         loading: true,
         noResults: false,
+
       },
 
     );
   };
 
-  fethImages = () => {
+  fetIm = () => {
     const { query, page } = this.state;
 
     fetchImages(query, page).then((result) => {
@@ -41,6 +42,8 @@ export class App extends Component {
         this.setState((prevState) => ({
           images: [...prevState.images, ...result.images],
           loading: false,
+          error: null,
+
           noResults:
             result.images.length === 0 && prevState.images.length === 0,
           loadMore: page + 1 < Math.ceil(result.totalHits / 12),
@@ -53,7 +56,7 @@ export class App extends Component {
     this.setState(
       (prevState) => ({
         page: prevState.page + 1,
-              loading: true, 
+        loading: true, 
 
       })
     );
@@ -64,7 +67,7 @@ export class App extends Component {
       this.state.page !== prevState.page ||
       this.state.query !== prevState.query
     ) {
-      this.fethImages();
+      this.fetIm();
     }
   }
 
@@ -98,7 +101,7 @@ export class App extends Component {
                 {images.length > 0 ? (
                   <>
                     <ImageGallery images={images} />
-                    {!loadMore && (
+                    {!loadMore && !loading && (
                       <Button onClick={this.handleLoadMore}>
                         Load more
                       </Button>
