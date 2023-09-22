@@ -6,9 +6,9 @@ export const fetchImages = (query, page) => {
     .then((response) => response.json())
     .then((data) => {
       if (data.hits.length === 0) {
-        return { hasMore: false, images: [], loading: false};
+        return { images: [], totalHits: 0 };
       } else {
-        return { images: data.hits, hasMore: data.hits.length >= 12 };
+        return { images: data.hits, totalHits: data.totalHits };
       }
     })
     .catch((error) => {

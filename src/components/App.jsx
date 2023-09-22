@@ -28,39 +28,51 @@ export class App extends Component {
         images: [],
         loading: true,
         noResults: false,
+              loadMore: false,
+
 
       },
 
     );
   };
 
-  fetIm = () => {
-    const { query, page } = this.state;
+fetIm = () => {
+  const { query, page } = this.state;
 
-    fetchImages(query, page).then((result) => {
-      if (result.images) {
-        this.setState((prevState) => ({
-          images: [...prevState.images, ...result.images],
-          loading: false,
-          error: null,
-
-          noResults:
-            result.images.length === 0 && prevState.images.length === 0,
-          loadMore: page + 1 < Math.ceil(result.totalHits / 12),
-        }));
-      }
+  if (query.trim() === '') {
+    this.setState({
+      loading: false,
+      noResults: false,
     });
-  };
+    return;
+  }
 
-  handleLoadMore = () => {
-    this.setState(
-      (prevState) => ({
-        page: prevState.page + 1,
-        loading: true, 
+  fetchImages(query, page).then((result) => {
+    if (result.images) {
+      this.setState((prevState) => ({
+        images: [...prevState.images, ...result.images],
+        loading: false,
+        error: null,
+        noResults: result.images.length === 0 && prevState.images.length === 0,
+        loadMore: page + 1 < Math.ceil(result.totalHits / 12),
+      }));
+    } else {
+      this.setState({
+        loading: false,
+        loadMore: false,
+      });
+    }
+  });
+};
 
-      })
-    );
-  };
+handleLoadMore = () => {
+  this.setState(
+    (prevState) => ({
+      page: prevState.page + 1,
+      loading: true,
+    })
+  );
+};
 
   componentDidUpdate(prevProps, prevState) {
     if (
@@ -71,19 +83,18 @@ export class App extends Component {
     }
   }
 
-  render() {
-    const { images, loading, noResults, loadMore } = this.state;
+render() {
+  const { images, loading, noResults, loadMore } = this.state;
 
-    return (
-      <Divapp>
-        <Searchbar onSearch={this.handleSearch} />
-        {loading ? (
-          <Loader />
-        ) : (
-          <>
-            {noResults && !loading ? (
-              <p
-                style={{
+  return (
+    <Divapp>
+      <Searchbar onSearch={this.handleSearch} />
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          {noResults && !loading ? (
+            <p style={{
                   color: 'grey',
                   textAlign: 'center',
                   fontSize: '30px',
@@ -92,44 +103,32 @@ export class App extends Component {
                   alignItems: 'center',
                   justifyContent: 'center',
                   height: '100vh',
-                }}
-              >
-                Немає результатів
-              </p>
-            ) : (
-              <>
-                {images.length > 0 ? (
-                  <>
-                    <ImageGallery images={images} />
-                    {!loadMore && !loading && (
-                      <Button onClick={this.handleLoadMore}>
-                        Load more
-                      </Button>
-                    )}
-                  </>
-                ) : (
-                  <p
-                    style={{
-                      color: 'grey',
-                      textAlign: 'center',
-                      fontSize: '30px',
-                      fontWeight: 'bold',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      height: '100vh',
-                    }}
-                  >
-                    Галерея зображень порожня... 📷
-                  </p>
-                )}
-              </>
-            )}
-          </>
-        )}
-      </Divapp>
-    );
-  }
+                }}>Немає результатів</p>
+          ) : (
+            <>
+              <ImageGallery images={images} />
+              {images.length > 0 && loadMore && (
+                <Button onClick={this.handleLoadMore}>Load more</Button>
+              )}
+              {images.length === 0 && !loading && (
+                <p style={{
+                  color: 'grey',
+                  textAlign: 'center',
+                  fontSize: '30px',
+                  fontWeight: 'bold',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: '100vh',
+                }}>Галерея зображень порожня... 📷</p>
+              )}
+            </>
+          )}
+        </>
+      )}
+    </Divapp>
+  );
+}
 }
 
 export default App;
