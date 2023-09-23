@@ -55,7 +55,7 @@ fetIm = () => {
         loading: false,
         error: null,
         noResults: result.images.length === 0 && prevState.images.length === 0,
-        loadMore: page + 1 < Math.ceil(result.totalHits / 12),
+        loadMore: page < Math.ceil(result.totalHits / 12),
       }));
     })
 };
