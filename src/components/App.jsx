@@ -47,8 +47,9 @@ fetIm = () => {
     return;
   }
 
-  fetchImages(query, page).then((result) => {
-    if (result.images) {
+  fetchImages(query, page)
+    .then((data) => {
+      const result = data.hits.length === 0 ? { images: [], totalHits: 0 } : { images: data.hits, totalHits: data.totalHits };
       this.setState((prevState) => ({
         images: [...prevState.images, ...result.images],
         loading: false,
@@ -56,13 +57,7 @@ fetIm = () => {
         noResults: result.images.length === 0 && prevState.images.length === 0,
         loadMore: page + 1 < Math.ceil(result.totalHits / 12),
       }));
-    } else {
-      this.setState({
-        loading: false,
-        loadMore: false,
-      });
-    }
-  });
+    })
 };
 
 handleLoadMore = () => {
